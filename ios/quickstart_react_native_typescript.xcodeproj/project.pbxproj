@@ -12,8 +12,10 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		6172F2D35A4C3AA820D92908 /* libPods-quickstart_react_native_typescript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-quickstart_react_native_typescript.a */; };
+		796F313A48F14B2184CC14CC /* EliceDigitalBaeumOTF-Bd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6D8A0D1AA714440CB0842E0A /* EliceDigitalBaeumOTF-Bd.otf */; };
 		7EF68E3733C33B6898317E18 /* libPods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		91F4D0E6FC7C42E3A73C1446 /* EliceDigitalBaeumOTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = AEEA5A4ABEC04D4E852ED480 /* EliceDigitalBaeumOTF.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +41,10 @@
 		1D0AE47A65C8663E3B452821 /* Pods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.release.xcconfig"; path = "Target Support Files/Pods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests/Pods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.release.xcconfig"; sourceTree = "<group>"; };
 		6423831EA8574132BED9D8CC /* libPods-quickstart_react_native_typescript.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-quickstart_react_native_typescript.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C97AB639B58BBB4B15BBE30 /* Pods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.debug.xcconfig"; path = "Target Support Files/Pods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests/Pods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6D8A0D1AA714440CB0842E0A /* EliceDigitalBaeumOTF-Bd.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "EliceDigitalBaeumOTF-Bd.otf"; path = "../assets/fonts/EliceDigitalBaeumOTF-Bd.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = quickstart_react_native_typescript/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ABFE59519B596E51CEFDCCC0 /* libPods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-quickstart_react_native_typescript-quickstart_react_native_typescriptTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEEA5A4ABEC04D4E852ED480 /* EliceDigitalBaeumOTF.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EliceDigitalBaeumOTF.otf; path = ../assets/fonts/EliceDigitalBaeumOTF.otf; sourceTree = "<group>"; };
 		C0A881CF5CF3F2B244570E2A /* Pods-quickstart_react_native_typescript.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-quickstart_react_native_typescript.debug.xcconfig"; path = "Target Support Files/Pods-quickstart_react_native_typescript/Pods-quickstart_react_native_typescript.debug.xcconfig"; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-quickstart_react_native_typescript.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-quickstart_react_native_typescript.release.xcconfig"; path = "Target Support Files/Pods-quickstart_react_native_typescript/Pods-quickstart_react_native_typescript.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -106,6 +110,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		619A55723AED4241BCD3EC9B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AEEA5A4ABEC04D4E852ED480 /* EliceDigitalBaeumOTF.otf */,
+				6D8A0D1AA714440CB0842E0A /* EliceDigitalBaeumOTF-Bd.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +135,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				E233CBF5F47BEE60B243DCF8 /* Pods */,
+				619A55723AED4241BCD3EC9B /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -244,6 +258,8 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				91F4D0E6FC7C42E3A73C1446 /* EliceDigitalBaeumOTF.otf in Resources */,
+				796F313A48F14B2184CC14CC /* EliceDigitalBaeumOTF-Bd.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
