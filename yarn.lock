@@ -753,6 +753,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@dpwiese/react-native-canvas-charts@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@dpwiese/react-native-canvas-charts/-/react-native-canvas-charts-0.0.4.tgz#06d96252c9fe6a33b979e39d291f81f8d43c28b4"
+  integrity sha512-6m9VU71TEBhVc0liIDERpW9LXHNl2kGZwRPCIliQViGn8RJkflHKde8Z6B8FW2dj5WTekS3BJ1+NhnNBi3Wb+Q==
+  dependencies:
+    react-native-webview "^11.2.1"
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -2700,15 +2707,15 @@ escape-html@~1.0.3:
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
 
+escape-string-regexp@2.0.0, escape-string-regexp@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
+  integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
+
 escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
-
-escape-string-regexp@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
-  integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
 
 escape-string-regexp@^4.0.0:
   version "4.0.0"
@@ -3522,7 +3529,7 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -5676,6 +5683,14 @@ react-native-vector-icons@^8.1.0:
     lodash.template "^4.5.0"
     prop-types "^15.7.2"
     yargs "^16.1.1"
+
+react-native-webview@^11.14.0, react-native-webview@^11.2.1:
+  version "11.14.0"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.14.0.tgz#01d7669409d7510c859300c058902c8a8490cbbb"
+  integrity sha512-G5pIYL3dU4rWt4K8W8ZoEDHL3nCR+rnNWsrCP/rJcl1gElxZn2xlpHjNml4myopIzn835NgE0/dJJ9VHvdMg3Q==
+  dependencies:
+    escape-string-regexp "2.0.0"
+    invariant "2.2.4"
 
 react-native@0.65.1:
   version "0.65.1"
