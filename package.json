@@ -17,6 +17,7 @@
     "@react-navigation/bottom-tabs": "^5.x",
     "@react-navigation/native": "^5.x",
     "@react-navigation/stack": "^5.x",
+    "hermes-engine": "0.8.1",
     "moti": "^0.16.1",
     "react": "17.0.2",
     "react-native": "0.65.1",
