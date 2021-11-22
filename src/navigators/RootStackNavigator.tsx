@@ -5,8 +5,6 @@ import OneStackNavigator from '~/navigators/OneStackNavigator';
 
 type RootStackParamList = {
   BottomStackScreen: undefined;
-  //
-  OneStackScreen: undefined;
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -21,7 +19,6 @@ const RootStackNavigator = () => (
       ...TransitionPresets.SlideFromRightIOS,
     }}>
     <RootStack.Screen name={'BottomStackScreen'} component={BottomTabStackNavigator} options={{headerShown: false}} />
-    <RootStack.Screen name={'OneStackScreen'} component={OneStackNavigator} options={{headerShown: false}} />
   </RootStack.Navigator>
 );
 

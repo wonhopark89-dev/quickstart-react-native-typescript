@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import OneScreen from '~/screens/bottomTabs/OneScreen';
 import TwoScreen from '~/screens/bottomTabs/TwoScreen';
 import ThreeScreen from '~/screens/bottomTabs/ThreeScreen';
 import FourScreen from '~/screens/bottomTabs/FourScreen';
 import textStyle from '~/styles/TextStyle';
 import palette from '~/styles/ColorStyle';
+import OneStackNavigator from '~/navigators/OneStackNavigator';
 
 type BottomTabStackParamList = {
   OneScreen: undefined;
@@ -21,7 +21,7 @@ const BottomTabStackNavigator = () => (
   <BottomTabStack.Navigator initialRouteName={'OneScreen'} backBehavior={'none'}>
     <BottomTabStack.Screen
       name={'OneScreen'}
-      component={OneScreen}
+      component={OneStackNavigator}
       options={{
         tabBarLabel: ({focused}) => (
           <Text style={[textStyle.regular20, {color: focused ? palette.primary : palette.gray}]}>{`One`}</Text>
