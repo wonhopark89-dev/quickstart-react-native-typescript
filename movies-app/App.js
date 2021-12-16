@@ -5,17 +5,26 @@ import { Text, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Asset } from 'expo-asset';
 
+const loadFonts = (fonts) => fonts.map((font) => Font.loadAsync(font));
+const loadImages = (images) =>
+  images.map((image) => {
+    if (typeof image === 'string') {
+      return Image.prefetch(image);
+    } else {
+      return Asset.loadAsync(image);
+    }
+  });
+
 export default function App() {
   const [ready, setReady] = useState(false);
 
   const onFinish = () => setReady(true);
   const startLoading = async () => {
-    await Font.loadAsync(Ionicons.font);
-    await Asset.loadAsync(require('./oss_logo.png'));
-    await Image.prefetch(
+    const fonts = loadFonts([Ionicons.font]);
+    const images = loadImages([
+      require('./oss_logo.png'),
       'https://d33wubrfki0l68.cloudfront.net/01eeacc4cb1ecbbd986af3acbec3addd264170c7/2673a/img/showcase/qq.png',
-    ); // don`t recommend
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    ]);
   };
 
   if (!ready) {
