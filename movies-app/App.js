@@ -1,23 +1,29 @@
 import AppLoading from 'expo-app-loading';
-import React, { useState } from 'react';
+import React from 'react';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import { Asset, useAssets } from 'expo-asset';
-import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
-import Tabs from './navigation/Tabs';
-import Stack from './navigation/Stack';
+import { useAssets } from 'expo-asset';
+import { NavigationContainer } from '@react-navigation/native';
+import Root from './navigation/Root';
+import { ThemeProvider } from 'styled-components/native';
+import { useColorScheme } from 'react-native';
+import { dartTheme, lightTheme } from './styled';
 
 export default function App() {
   const [assets] = useAssets([require('./oss_logo.png')]);
   const [loaded, error] = Font.useFonts(Ionicons.font);
+
+  const isDark = useColorScheme() === 'dark';
 
   if (!assets || !loaded) {
     return <AppLoading />;
   }
 
   return (
-    <NavigationContainer>
-      <Stack />
-    </NavigationContainer>
+    <ThemeProvider theme={isDark ? dartTheme : lightTheme}>
+      <NavigationContainer>
+        <Root />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }

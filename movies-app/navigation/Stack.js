@@ -1,37 +1,33 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Text, View, TouchableOpacity } from 'react-native';
 
 const ScreenOne = ({ navigation: { navigate } }) => (
   <TouchableOpacity onPress={() => navigate('Two')}>
-    <View>
-      <Text>One</Text>
-    </View>
+    <Text>go to two</Text>
   </TouchableOpacity>
 );
-
 const ScreenTwo = ({ navigation: { navigate } }) => (
   <TouchableOpacity onPress={() => navigate('Three')}>
-    <View>
-      <Text>Two</Text>
-    </View>
+    <Text>go to three</Text>
   </TouchableOpacity>
 );
-
-const ScreenThree = ({ navigation: { goBack, setOptions } }) => (
-  <TouchableOpacity onPress={() => setOptions({ title: 'Hello!' })}>
-    <View>
-      <Text>Three</Text>
-    </View>
+const ScreenThree = ({ navigation: { navigate } }) => (
+  <TouchableOpacity onPress={() => navigate('Tabs', { screen: 'Search' })}>
+    <Text>Go to search</Text>
   </TouchableOpacity>
 );
 
 const NativeStack = createNativeStackNavigator();
+
 const Stack = () => (
-  <NativeStack.Navigator>
-    <NativeStack.Screen name={'One'} component={ScreenOne} />
-    <NativeStack.Screen name={'Two'} component={ScreenTwo} />
-    <NativeStack.Screen name={'Three'} component={ScreenThree} />
+  <NativeStack.Navigator
+    screenOptions={{
+      headerBackTitleVisible: false,
+    }}>
+    <NativeStack.Screen name="One" component={ScreenOne} />
+    <NativeStack.Screen name="Two" component={ScreenTwo} />
+    <NativeStack.Screen name="Three" component={ScreenThree} />
   </NativeStack.Navigator>
 );
 
