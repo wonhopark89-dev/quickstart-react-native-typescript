@@ -6,7 +6,7 @@ import Swiper from 'react-native-swiper';
 import Slide from '../components/Slide';
 import VMedia from '../components/VMedia';
 import HMedia from '../components/HMedia';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { moviesApi } from '../api';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -50,29 +50,33 @@ const HSeparator = styled.View`
 `;
 
 const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = ({ navigation: { navigate } }) => {
+  const queryClinet = useQueryClient();
   const {
     isLoading: nowPlayingLoading,
     data: nowPlayingData,
-    refetch: refetchNowPlaying,
+    // refetch: refetchNowPlaying,
     isRefetching: isRefetchingNowPlaying,
-  } = useQuery('nowPlaying', moviesApi.nowPlaying);
+  } = useQuery(['movie', 'nowPlaying'], moviesApi.nowPlaying);
   const {
     isLoading: trendingLoading,
     data: trendingData,
-    refetch: refetchTrending,
+    // refetch: refetchTrending,
     isRefetching: isRefetchingTrending,
-  } = useQuery('trending', moviesApi.trending);
+  } = useQuery(['movie', 'trending'], moviesApi.trending);
   const {
     isLoading: upcomingLoading,
     data: upcomingData,
-    refetch: refetchUpcoming,
+    // refetch: refetchUpcoming,
     isRefetching: isRefetchingUpcoming,
-  } = useQuery('upcoming', moviesApi.upcoming);
+  } = useQuery(['movie', 'upcoming'], moviesApi.upcoming);
 
   const onRefresh = async () => {
-    refetchNowPlaying();
-    refetchTrending();
-    refetchUpcoming();
+    /**
+     * "movie" 키를 가진 fetcher 를 모드 refetch 한다
+     * 키는 배열이 될 수 있으며, 일부만 일치하면 작동한다.
+     * -> Categorizing 해서 사용하면 유용하다
+     */
+    await queryClinet.refetchQueries(['movie']);
   };
 
   const renderVMedia = ({ item }) => (
