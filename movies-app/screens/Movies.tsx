@@ -50,21 +50,30 @@ const HSeparator = styled.View`
 `;
 
 const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = ({ navigation: { navigate } }) => {
-  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const {
+    isLoading: nowPlayingLoading,
+    data: nowPlayingData,
+    refetch: refetchNowPlaying,
+    isRefetching: isRefetchingNowPlaying,
+  } = useQuery('nowPlaying', moviesApi.nowPlaying);
+  const {
+    isLoading: trendingLoading,
+    data: trendingData,
+    refetch: refetchTrending,
+    isRefetching: isRefetchingTrending,
+  } = useQuery('trending', moviesApi.trending);
+  const {
+    isLoading: upcomingLoading,
+    data: upcomingData,
+    refetch: refetchUpcoming,
+    isRefetching: isRefetchingUpcoming,
+  } = useQuery('upcoming', moviesApi.upcoming);
 
-  const { isLoading: nowPlayingLoading, data: nowPlayingData } = useQuery('nowPlaying', moviesApi.nowPlaying);
-  const { isLoading: trendingLoading, data: trendingData } = useQuery('trending', moviesApi.trending);
-  const { isLoading: upcomingLoading, data: upcomingData } = useQuery('upcoming', moviesApi.upcoming);
-
-  const getData = async () => {
-    // wait for all of them
+  const onRefresh = async () => {
+    refetchNowPlaying();
+    refetchTrending();
+    refetchUpcoming();
   };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const onRefresh = async () => {};
 
   const renderVMedia = ({ item }) => (
     <VMedia posterPath={item.poster_path} originalTitle={item.original_title} voteAverage={item.vote_average} />
@@ -81,7 +90,8 @@ const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = ({ navigation: {
   const movieKeyExtractor = (item) => item.id + '';
 
   const loading = nowPlayingLoading || upcomingLoading || trendingLoading;
-
+  const refreshing = isRefetchingNowPlaying || isRefetchingUpcoming || isRefetchingTrending;
+  console.log(refreshing);
   return loading ? (
     <Loader>
       <ActivityIndicator size={'large'} />
