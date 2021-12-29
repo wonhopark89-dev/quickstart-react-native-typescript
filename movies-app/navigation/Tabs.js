@@ -15,7 +15,15 @@ const Tabs = () => {
 
   return (
     <Tab.Navigator
+      sceneContainerStyle={{ backgroundColor: theme.tabBar }}
       screenOptions={{
+        /**
+         * @param: unmountOnBlur
+         * 화면이 벗어나면, 그 화면에 대한 컴포넌트를 메모리에서 삭제함
+         * React-Query 를 사용하지 않으면 매번 다시 요청해야함.
+         * React-Query 에서 데이터를 캐싱하고 있어서 다시 fetch 안함
+         */
+        unmountOnBlur: true,
         tabBarStyle: { backgroundColor: theme.tabBar },
         tabBarActiveTintColor: theme.tabBarActiveTint,
         tabBarInactiveTintColor: theme.tabBarInactiveTint,

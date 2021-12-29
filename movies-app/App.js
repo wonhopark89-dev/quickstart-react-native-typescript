@@ -8,6 +8,9 @@ import Root from './navigation/Root';
 import { ThemeProvider } from 'styled-components/native';
 import { useColorScheme } from 'react-native';
 import { dartTheme, lightTheme } from './styled';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [assets] = useAssets([require('./oss_logo.png')]);
@@ -20,10 +23,12 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={isDark ? dartTheme : lightTheme}>
-      <NavigationContainer>
-        <Root />
-      </NavigationContainer>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={isDark ? dartTheme : lightTheme}>
+        <NavigationContainer>
+          <Root />
+        </NavigationContainer>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
