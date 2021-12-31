@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components/native';
-import { Dimensions, Linking, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Linking, StyleSheet, Text, TouchableOpacity, View, Share, Platform } from 'react-native';
 import { Movie, moviesApi, TV, tvApi } from '../api';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Poster from '../components/Poster';
@@ -74,11 +74,41 @@ const Detail: React.FC<DetailScreenProps> = ({ navigation: { setOptions }, route
     // { enabled: 'original_title' in params }, // 위에 isMovie 로 판단하는걸로 수정
   );
 
+  const shareMedia = async () => {
+    const isAndroid = Platform.OS === 'android';
+    const hompage = isMovie ? `https://www.imdb.com/title/${data.imdb_id}/` : data.homepage;
+    if (isAndroid) {
+      await Share.share({
+        message: `${params.overview}\nCheck it out: ${hompage}`,
+        title: isMovie ? params.original_title : params.original_name,
+      });
+    } else {
+      await Share.share({
+        url: hompage,
+        title: isMovie ? params.original_title : params.original_name,
+      });
+    }
+  };
+
+  const ShareButton = () => (
+    <TouchableOpacity onPress={shareMedia}>
+      <Ionicons name={'share-outline'} color={'#808e9b'} size={24} />
+    </TouchableOpacity>
+  );
+
   useEffect(() => {
     setOptions({
       title: 'original_title' in params ? 'Movie' : 'TV Show',
     });
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      setOptions({
+        headerRight: () => <ShareButton />,
+      });
+    }
+  }, [data]);
 
   const openYoutubeLink = async (videoID: string) => {
     const baseUrl = `https://m.youtube.com/watch?v=${videoID}`;
@@ -103,7 +133,7 @@ const Detail: React.FC<DetailScreenProps> = ({ navigation: { setOptions }, route
         {data?.videos?.results?.map((video) =>
           video.site === 'YouTube' ? (
             <VideoBtn key={video.key} onPress={() => openYoutubeLink(video.key)}>
-              <Ionicons name={'logo-youtube'} color={getTheme().header} size={24} />
+              <Ionicons name={'logo-youtube'} color={'red'} size={24} />
               <BtnText>{video.name}</BtnText>
             </VideoBtn>
           ) : null,

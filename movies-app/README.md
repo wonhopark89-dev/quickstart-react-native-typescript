@@ -17,3 +17,6 @@ react-query
 expo
 - https://docs.expo.dev/versions/latest/sdk/webbrowser/#installation
 - https://docs.expo.dev/versions/latest/sdk/linear-gradient/#installation
+
+share
+- https://reactnative.dev/docs/share
