@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Dimensions, FlatList } from 'react-native';
+import { Dimensions, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Swiper from 'react-native-swiper';
 import Slide from '../components/Slide';
-import VMedia from '../components/VMedia';
 import HMedia from '../components/HMedia';
 import { useQuery, useQueryClient } from 'react-query';
 import { MovieResponse, moviesApi } from '../api';
@@ -12,21 +11,6 @@ import Loader from '../components/Loader';
 import HList from '../components/HList';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-
-const ListTitle = styled.Text`
-  color: ${(props) => props.theme.textColor};
-  font-size: 18px;
-  font-weight: 600;
-  margin-left: 30px;
-`;
-
-const TrendingScroll = styled.FlatList`
-  margin-top: 20px;
-`;
-
-const ListContainer = styled.View`
-  margin-bottom: 30px;
-`;
 
 const ComingSoonTitle = styled.Text`
   color: ${(props) => props.theme.textColor};
@@ -36,9 +20,6 @@ const ComingSoonTitle = styled.Text`
   margin-bottom: 20px;
 `;
 
-const VSeparator = styled.View`
-  width: 20px;
-`;
 const HSeparator = styled.View`
   height: 20px;
 `;
