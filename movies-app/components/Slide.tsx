@@ -1,10 +1,11 @@
 import React from 'react';
-import { useColorScheme, View } from 'react-native';
+import { TouchableWithoutFeedback, useColorScheme, View } from 'react-native';
 import styled from 'styled-components/native';
 import { makeImgPath } from '../utils';
 import { BlurView } from 'expo-blur';
 import { StyleSheet } from 'react-native';
 import Poster from './Poster';
+import { useNavigation } from '@react-navigation/native';
 
 const BgImg = styled.Image`
   width: 100%;
@@ -53,20 +54,24 @@ interface SlideProps {
 
 const Slide: React.FC<SlideProps> = ({ backdropPath, posterPath, originalTitle, voteAverage, overview }) => {
   const isDark = useColorScheme() === 'dark';
+  const navigation = useNavigation();
+  const goToDetail = () => navigation.navigate('Stack', { screen: 'Detail' });
   return (
-    <View style={{ flex: 1 }}>
-      <BgImg source={{ uri: makeImgPath(backdropPath) }} />
-      <BlurView tint={isDark ? 'dark' : 'light'} intensity={80} style={StyleSheet.absoluteFill}>
-        <Wrapper>
-          <Poster path={posterPath} />
-          <Column>
-            <Title isDark={isDark}>{originalTitle}</Title>
-            {voteAverage > 0 ? <Votes isDark={isDark}>⭐️ {voteAverage}/10</Votes> : null}
-            <Overview isDark={isDark}>{overview.slice(0, 90)}...</Overview>
-          </Column>
-        </Wrapper>
-      </BlurView>
-    </View>
+    <TouchableWithoutFeedback onPress={goToDetail}>
+      <View style={{ flex: 1 }}>
+        <BgImg source={{ uri: makeImgPath(backdropPath) }} />
+        <BlurView tint={isDark ? 'dark' : 'light'} intensity={80} style={StyleSheet.absoluteFill}>
+          <Wrapper>
+            <Poster path={posterPath} />
+            <Column>
+              <Title isDark={isDark}>{originalTitle}</Title>
+              {voteAverage > 0 ? <Votes isDark={isDark}>⭐️ {voteAverage}/10</Votes> : null}
+              <Overview isDark={isDark}>{overview.slice(0, 90)}...</Overview>
+            </Column>
+          </Wrapper>
+        </BlurView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
