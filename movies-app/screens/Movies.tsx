@@ -8,14 +8,10 @@ import VMedia from '../components/VMedia';
 import HMedia from '../components/HMedia';
 import { useQuery, useQueryClient } from 'react-query';
 import { MovieResponse, moviesApi } from '../api';
+import Loader from '../components/Loader';
+import HList from '../components/HList';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-
-const Loader = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
 
 const ListTitle = styled.Text`
   color: ${(props) => props.theme.textColor};
@@ -81,9 +77,7 @@ const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = ({ navigation: {
   const refreshing = isRefetchingNowPlaying || isRefetchingUpcoming || isRefetchingTrending;
 
   return loading ? (
-    <Loader>
-      <ActivityIndicator size={'large'} />
-    </Loader>
+    <Loader />
   ) : upcomingData ? (
     <FlatList
       refreshing={refreshing}
@@ -109,26 +103,7 @@ const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = ({ navigation: {
               />
             ))}
           </Swiper>
-          <ListContainer>
-            <ListTitle>Trending Movies</ListTitle>
-            {trendingData ? (
-              <TrendingScroll
-                data={trendingData.results}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 20 }}
-                ItemSeparatorComponent={VSeparator}
-                keyExtractor={(item) => item.id + ''}
-                renderItem={({ item }) => (
-                  <VMedia
-                    posterPath={item.poster_path || ''}
-                    originalTitle={item.original_title}
-                    voteAverage={item.vote_average}
-                  />
-                )}
-              />
-            ) : null}
-          </ListContainer>
+          {trendingData ? <HList title={'Trending Movies'} data={trendingData.results} /> : null}
           <ComingSoonTitle>Coming Soon</ComingSoonTitle>
         </>
       }
