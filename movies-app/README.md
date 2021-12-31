@@ -13,3 +13,7 @@ movie-api
 
 react-query
 - https://react-query.tanstack.com/guides/query-functions#query-function-variables
+
+expo
+- https://docs.expo.dev/versions/latest/sdk/webbrowser/#installation
+- https://docs.expo.dev/versions/latest/sdk/linear-gradient/#installation

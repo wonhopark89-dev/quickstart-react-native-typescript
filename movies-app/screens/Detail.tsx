@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components/native';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import { Movie, TV } from '../api';
+import { Dimensions, Linking, StyleSheet, Text, View } from 'react-native';
+import { Movie, moviesApi, TV, tvApi } from '../api';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Poster from '../components/Poster';
 import { makeImgPath } from '../utils';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useQuery } from 'react-query';
+import { Ionicons } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
+import Loader from '../components/Loader';
+import { getTheme } from '../color';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -31,13 +36,28 @@ const Title = styled.Text`
 
 const Overview = styled.Text`
   color: ${(props) => props.theme.textColor};
-  margin-top: 20px;
-  padding: 0 20px;
+  margin: 20px 0;
 `;
 
 const Column = styled.View`
   flex-direction: row;
   width: 80%;
+`;
+
+const VideoBtn = styled.TouchableOpacity`
+  flex-direction: row;
+`;
+
+const BtnText = styled.Text`
+  color: ${(props) => props.theme.textColor};
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 24px;
+  margin-left: 10px;
+`;
+
+const Data = styled.View`
+  padding: 0 20px;
 `;
 
 type RootStackParamList = {
@@ -47,11 +67,24 @@ type RootStackParamList = {
 type DetailScreenProps = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 
 const Detail: React.FC<DetailScreenProps> = ({ navigation: { setOptions }, route: { params } }) => {
+  const isMovie = 'original_title' in params;
+  const { isLoading, data } = useQuery(
+    [isMovie ? 'movies' : 'tv', params.id],
+    isMovie ? moviesApi.detail : tvApi.detail,
+    // { enabled: 'original_title' in params }, // 위에 isMovie 로 판단하는걸로 수정
+  );
+
   useEffect(() => {
     setOptions({
       title: 'original_title' in params ? 'Movie' : 'TV Show',
     });
   }, []);
+
+  const openYoutubeLink = async (videoID: string) => {
+    const baseUrl = `https://m.youtube.com/watch?v=${videoID}`;
+    // await Linking.openURL(baseUrl); // 앱 밖으로 나가서 브라우저에서 열리거나, 해당앱이 있으면 앱이 열림
+    await WebBrowser.openBrowserAsync(baseUrl); // 앱 밖으로 나가지 않음
+  };
 
   return (
     <Container>
@@ -64,7 +97,18 @@ const Detail: React.FC<DetailScreenProps> = ({ navigation: { setOptions }, route
           <Title>{'original_title' in params ? params.original_title : params.original_name}</Title>
         </Column>
       </Header>
-      <Overview>{params.overview}</Overview>
+      <Data>
+        <Overview>{params.overview}</Overview>
+        {isLoading ? <Loader /> : null}
+        {data?.videos?.results?.map((video) =>
+          video.site === 'YouTube' ? (
+            <VideoBtn key={video.key} onPress={() => openYoutubeLink(video.key)}>
+              <Ionicons name={'logo-youtube'} color={getTheme().header} size={24} />
+              <BtnText>{video.name}</BtnText>
+            </VideoBtn>
+          ) : null,
+        )}
+      </Data>
     </Container>
   );
 };
