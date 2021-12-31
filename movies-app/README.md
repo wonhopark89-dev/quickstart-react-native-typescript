@@ -10,3 +10,6 @@ styled-compoentns
 movie-api
 - https://www.themoviedb.org/
 - https://developers.themoviedb.org/3/getting-started/images
+
+react-query
+- https://react-query.tanstack.com/guides/query-functions#query-function-variables

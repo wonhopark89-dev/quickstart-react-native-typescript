@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ActivityIndicator, Dimensions, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -44,7 +44,8 @@ const HSeparator = styled.View`
 `;
 
 const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = ({ navigation: { navigate } }) => {
-  const queryClinet = useQueryClient();
+  const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const {
     isLoading: nowPlayingLoading,
     data: nowPlayingData,
@@ -70,11 +71,12 @@ const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = ({ navigation: {
      * 키는 배열이 될 수 있으며, 일부만 일치하면 작동한다.
      * -> Categorizing 해서 사용하면 유용하다
      */
-    await queryClinet.refetchQueries(['movie']);
+    setRefreshing(true);
+    await queryClient.refetchQueries(['movie']);
+    setRefreshing(false);
   };
 
   const loading = nowPlayingLoading || upcomingLoading || trendingLoading;
-  const refreshing = isRefetchingNowPlaying || isRefetchingUpcoming || isRefetchingTrending;
 
   return loading ? (
     <Loader />
