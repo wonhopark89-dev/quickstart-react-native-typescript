@@ -13,6 +13,7 @@ movie-api
 
 react-query
 - https://react-query.tanstack.com/guides/query-functions#query-function-variables
+- https://react-query.tanstack.com/guides/infinite-queries
 
 expo
 - https://docs.expo.dev/versions/latest/sdk/webbrowser/#installation
