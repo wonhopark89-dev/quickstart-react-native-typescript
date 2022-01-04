@@ -7,8 +7,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import Root from './navigation/Root';
 import { ThemeProvider } from 'styled-components/native';
 import { useColorScheme } from 'react-native';
-import { dartTheme, lightTheme } from './styled';
+
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { dartTheme, lightTheme } from './myStyled';
 
 const queryClient = new QueryClient();
 
