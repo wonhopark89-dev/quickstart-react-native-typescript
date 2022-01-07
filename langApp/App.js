@@ -34,7 +34,7 @@ export default function App() {
     Animated.timing(Y, {
       toValue: up ? 200 : -200,
       duration: 1000,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => toggleUp());
   };
 
@@ -48,14 +48,25 @@ export default function App() {
     outputRange: [50, 0],
   });
 
+  const backgroundColor = Y.interpolate({
+    inputRange: [-200, 200],
+    outputRange: ["rgb(255,0,255)", "rgb(0,0,255)"],
+  });
+
+  const rotateY = Y.interpolate({
+    inputRange: [-200, 200],
+    outputRange: ["-360deg", "360deg"],
+  });
+
   return (
     <Container>
       <Pressable onPress={moveUp}>
         <AnimatedBox
           style={{
+            backgroundColor,
             borderRadius,
             opacity: opacityValue,
-            transform: [{ translateY: Y }],
+            transform: [{ rotateY }, { translateY: Y }],
           }}
         />
       </Pressable>
@@ -74,3 +85,6 @@ export default function App() {
 
 // Y.addListener(() => console.log("Animated State: " + JSON.stringify(Y))); // 애니메이션 value 보고 싶을때
 // console.log("Component State: " + JSON.stringify(Y)); // 리렌더링 되지 않음 ( Animation 이 react component 에서 실행된 것이 아님 )
+
+// useNativeDriver: true 일때 네이티브 실행 할수 없는 애니메이션도 있다, ( backgroundColor 같은 ),
+// useNativeDriver 를 false 로 하거나, 하는건 선택의 문제 ( 퍼포먼스 )
