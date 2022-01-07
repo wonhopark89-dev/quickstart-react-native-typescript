@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components/native";
-import { Animated, TouchableOpacity } from "react-native";
+import { Animated, Easing, TouchableOpacity } from "react-native";
 
 const Container = styled.View`
   flex: 1;
@@ -25,18 +25,18 @@ const Box1 = styled(Animated.createAnimatedComponent(TouchableOpacity))`
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 export default function App() {
-  const Y = new Animated.Value(0);
+  const [up, setUp] = useState(false);
+  const Y = useRef(new Animated.Value(0)).current;
+
+  const toggleUp = () => setUp((prev) => !prev);
 
   const moveUp = () => {
     Animated.timing(Y, {
-      toValue: 200,
+      toValue: up ? 200 : -200,
       useNativeDriver: true,
-    }).start();
+      easing: Easing.cubic,
+    }).start(() => toggleUp());
   };
-
-  Y.addListener(() => console.log(Y)); // 애니메이션 value 보고 싶을때
-
-  console.log(Y); // 리렌더링 되지 않음 ( Animation 이 react component 에서 실행된 것이 아님 )
 
   return (
     <Container>
@@ -49,3 +49,12 @@ export default function App() {
 
 // TouchableOpacity => 애니메이션이 자연스럽게 먹히지 않음
 // View, ScrollView 추천
+
+// Animated.Spring
+// Bounce 는 speed 와 같이 사용
+// friction 는 tension 와 같이 사용
+
+// useRef 사용해서, Animated 값이 리렌더링 후에도 유지할 수 있도록 보호한다.
+
+// Y.addListener(() => console.log("Animated State: " + JSON.stringify(Y))); // 애니메이션 value 보고 싶을때
+// console.log("Component State: " + JSON.stringify(Y)); // 리렌더링 되지 않음 ( Animation 이 react component 에서 실행된 것이 아님 )
