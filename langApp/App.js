@@ -4,6 +4,7 @@ import {
   Animated,
   Dimensions,
   Easing,
+  PanResponder,
   Pressable,
   TouchableOpacity,
 } from "react-native";
@@ -35,33 +36,22 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function App() {
   const POSITION = useRef(
     new Animated.ValueXY({
-      x: -SCREEN_WIDTH / 2 + 50,
-      y: -SCREEN_HEIGHT / 2 + 50,
+      x: 0,
+      y: 0,
     })
   ).current;
 
-  const topLeft = Animated.timing(POSITION, {
-    toValue: { x: -SCREEN_WIDTH / 2 + 50, y: -SCREEN_HEIGHT / 2 + 50 },
-    useNativeDriver: false,
-  });
-  const bottomLeft = Animated.timing(POSITION, {
-    toValue: { x: -SCREEN_WIDTH / 2 + 50, y: SCREEN_HEIGHT / 2 - 50 },
-    useNativeDriver: false,
-  });
-  const bottomRight = Animated.timing(POSITION, {
-    toValue: { x: SCREEN_WIDTH / 2 - 50, y: SCREEN_HEIGHT / 2 - 50 },
-    useNativeDriver: false,
-  });
-  const topRight = Animated.timing(POSITION, {
-    toValue: { x: SCREEN_WIDTH / 2 - 50, y: -SCREEN_HEIGHT / 2 + 50 },
-    useNativeDriver: false,
-  });
-
-  const moveUp = () => {
-    Animated.loop(
-      Animated.sequence([bottomLeft, bottomRight, topRight, topLeft])
-    ).start();
-  };
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (e, { dx, dy }) => {
+        POSITION.setValue({
+          x: dx,
+          y: dy,
+        });
+      },
+    })
+  ).current;
 
   const opacityValue = POSITION.y.interpolate({
     inputRange: [-200, 0, 200],
@@ -78,23 +68,17 @@ export default function App() {
     outputRange: ["rgb(255,0,255)", "rgb(0,0,255)"],
   });
 
-  const rotateY = POSITION.y.interpolate({
-    inputRange: [-200, 200],
-    outputRange: ["-360deg", "360deg"],
-  });
-
   return (
     <Container>
-      <Pressable onPress={moveUp}>
-        <AnimatedBox
-          style={{
-            backgroundColor,
-            borderRadius,
-            opacity: opacityValue,
-            transform: [{ translateY: POSITION.y }, { translateX: POSITION.x }],
-          }}
-        />
-      </Pressable>
+      <AnimatedBox
+        {...panResponder.panHandlers}
+        style={{
+          backgroundColor,
+          borderRadius,
+          opacity: opacityValue,
+          transform: [...POSITION.getTranslateTransform()],
+        }}
+      />
     </Container>
   );
 }
@@ -115,3 +99,6 @@ export default function App() {
 // useNativeDriver 를 false 로 하거나, 하는건 선택의 문제 ( 퍼포먼스 )
 
 // 애니메이션 초기값 위치와 애니메이션 sequence 의 마지막 위치를 잘 계산해서 자연스럽게.
+// ...POSITION.getTranslateTransform() => 축약
+
+// panResponder => dx, dy 사용가가 움직인 거리
