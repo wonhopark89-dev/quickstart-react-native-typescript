@@ -50,6 +50,13 @@ export default function App() {
           y: dy,
         });
       },
+      onPanResponderRelease: () => {
+        // POSITION.setValue({ x: 0, y: 0 }); // 애니메이션 없이 바로 이동해버림
+        Animated.spring(POSITION, {
+          toValue: { x: 0, y: 0 },
+          useNativeDriver: false,
+        }).start();
+      },
     })
   ).current;
 
@@ -102,3 +109,10 @@ export default function App() {
 // ...POSITION.getTranslateTransform() => 축약
 
 // panResponder => dx, dy 사용가가 움직인 거리
+
+// onPanResponderRelease : 터치가 끝났을 때 작동
+// POSITION.setValue({ x: 0, y: 0 }); // 애니메이션 없이 바로 이동해버림
+// Animated.spring(POSITION, {
+//     toValue: { x: 0, y: 0 },
+//     useNativeDriver: false,
+// }).start();
