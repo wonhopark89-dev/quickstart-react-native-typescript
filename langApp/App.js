@@ -1,6 +1,12 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components/native";
-import { Animated, Easing, Pressable, TouchableOpacity } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  Easing,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 
 const Container = styled.View`
   flex: 1;
@@ -24,36 +30,55 @@ const Box1 = styled(Animated.createAnimatedComponent(TouchableOpacity))`
 // Animated 컴포넌트 만드는 방법(2) with styled-components
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
-export default function App() {
-  const [up, setUp] = useState(false);
-  const Y = useRef(new Animated.Value(200)).current;
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-  const toggleUp = () => setUp((prev) => !prev);
+export default function App() {
+  const POSITION = useRef(
+    new Animated.ValueXY({
+      x: -SCREEN_WIDTH / 2 + 50,
+      y: -SCREEN_HEIGHT / 2 + 50,
+    })
+  ).current;
+
+  const topLeft = Animated.timing(POSITION, {
+    toValue: { x: -SCREEN_WIDTH / 2 + 50, y: -SCREEN_HEIGHT / 2 + 50 },
+    useNativeDriver: false,
+  });
+  const bottomLeft = Animated.timing(POSITION, {
+    toValue: { x: -SCREEN_WIDTH / 2 + 50, y: SCREEN_HEIGHT / 2 - 50 },
+    useNativeDriver: false,
+  });
+  const bottomRight = Animated.timing(POSITION, {
+    toValue: { x: SCREEN_WIDTH / 2 - 50, y: SCREEN_HEIGHT / 2 - 50 },
+    useNativeDriver: false,
+  });
+  const topRight = Animated.timing(POSITION, {
+    toValue: { x: SCREEN_WIDTH / 2 - 50, y: -SCREEN_HEIGHT / 2 + 50 },
+    useNativeDriver: false,
+  });
 
   const moveUp = () => {
-    Animated.timing(Y, {
-      toValue: up ? 200 : -200,
-      duration: 1000,
-      useNativeDriver: false,
-    }).start(() => toggleUp());
+    Animated.loop(
+      Animated.sequence([bottomLeft, bottomRight, topRight, topLeft])
+    ).start();
   };
 
-  const opacityValue = Y.interpolate({
+  const opacityValue = POSITION.y.interpolate({
     inputRange: [-200, 0, 200],
     outputRange: [1, 0.5, 1],
   });
 
-  const borderRadius = Y.interpolate({
+  const borderRadius = POSITION.y.interpolate({
     inputRange: [-200, 200],
     outputRange: [50, 0],
   });
 
-  const backgroundColor = Y.interpolate({
+  const backgroundColor = POSITION.y.interpolate({
     inputRange: [-200, 200],
     outputRange: ["rgb(255,0,255)", "rgb(0,0,255)"],
   });
 
-  const rotateY = Y.interpolate({
+  const rotateY = POSITION.y.interpolate({
     inputRange: [-200, 200],
     outputRange: ["-360deg", "360deg"],
   });
@@ -66,7 +91,7 @@ export default function App() {
             backgroundColor,
             borderRadius,
             opacity: opacityValue,
-            transform: [{ rotateY }, { translateY: Y }],
+            transform: [{ translateY: POSITION.y }, { translateX: POSITION.x }],
           }}
         />
       </Pressable>
@@ -88,3 +113,5 @@ export default function App() {
 
 // useNativeDriver: true 일때 네이티브 실행 할수 없는 애니메이션도 있다, ( backgroundColor 같은 ),
 // useNativeDriver 를 false 로 하거나, 하는건 선택의 문제 ( 퍼포먼스 )
+
+// 애니메이션 초기값 위치와 애니메이션 sequence 의 마지막 위치를 잘 계산해서 자연스럽게.
