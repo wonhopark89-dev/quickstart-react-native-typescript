@@ -45,17 +45,28 @@ export default function App() {
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (e, { dx, dy }) => {
+        console.log("Finger Moving");
         POSITION.setValue({
           x: dx,
           y: dy,
         });
       },
+      onPanResponderGrant: () => {
+        console.log("Touch Started");
+        POSITION.setOffset({
+          // 시작을 현재 위치에서  ( 0,0 이 아닌ㄷ )
+          x: POSITION.x._value,
+          y: POSITION.y._value,
+        });
+      },
       onPanResponderRelease: () => {
+        console.log("Touch Finished");
+        POSITION.flattenOffset();
         // POSITION.setValue({ x: 0, y: 0 }); // 애니메이션 없이 바로 이동해버림
-        Animated.spring(POSITION, {
-          toValue: { x: 0, y: 0 },
-          useNativeDriver: false,
-        }).start();
+        // Animated.spring(POSITION, {
+        //   toValue: { x: 0, y: 0 },
+        //   useNativeDriver: false,
+        // }).start();
       },
     })
   ).current;
@@ -109,6 +120,7 @@ export default function App() {
 // ...POSITION.getTranslateTransform() => 축약
 
 // panResponder => dx, dy 사용가가 움직인 거리
+// dx,dy => 손가락을 떼면 다시 0 부터 시작
 
 // onPanResponderRelease : 터치가 끝났을 때 작동
 // POSITION.setValue({ x: 0, y: 0 }); // 애니메이션 없이 바로 이동해버림
