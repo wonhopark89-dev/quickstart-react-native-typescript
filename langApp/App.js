@@ -63,12 +63,16 @@ export default function App() {
     toValue: -500,
     tension: 5,
     useNativeDriver: true,
+    restSpeedThreshold: 100,
+    restDisplacementThreshold: 100,
   });
 
   const goRight = Animated.spring(position, {
     toValue: 500,
     tension: 5,
     useNativeDriver: true,
+    restSpeedThreshold: 100,
+    restDisplacementThreshold: 100,
   });
 
   const onPressIn = () =>
@@ -96,9 +100,9 @@ export default function App() {
       onPanResponderGrant: () => onPressIn(),
       onPanResponderRelease: (_, { dx }) => {
         if (dx < -250) {
-          goLeft.start();
+          goLeft.start(onDismiss);
         } else if (dx > 250) {
-          goRight.start();
+          goRight.start(onDismiss);
         } else {
           Animated.parallel([onPressOut, goCenter]).start();
         }
@@ -191,3 +195,8 @@ export default function App() {
 // });
 
 // tension 값이 작을수록 속도가 느리다
+
+// restSpeedThreshold, restDisplacementThreshold
+// 애니메이션이 끝나는 시간과 거리의 한계치를 파악해서 더 빠르게 종료시키도록 함( 반응이 빠르도록 )
+// restSpeedThreshold: 100,
+// restDisplacementThreshold:100
