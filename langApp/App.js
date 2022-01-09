@@ -23,11 +23,21 @@ const Card = styled(Animated.createAnimatedComponent(View))`
 export default function App() {
   const position = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current; // 1 = 100%
+  const rotation = position.interpolate({
+    inputRange: [-250, 250],
+    outputRange: ["-15deg", "15deg"],
+  });
 
   const onPressIn = () =>
     Animated.spring(scale, { toValue: 0.9, useNativeDriver: true }).start();
+
   const onPressOut = Animated.spring(scale, {
     toValue: 1,
+    useNativeDriver: true,
+  });
+
+  const goCenter = Animated.spring(position, {
+    toValue: 0,
     useNativeDriver: true,
   });
 
@@ -38,14 +48,20 @@ export default function App() {
         position.setValue(dx);
       },
       onPanResponderGrant: () => onPressIn(),
-      onPanResponderRelease: () => {
-        Animated.parallel([
-          onPressOut,
+      onPanResponderRelease: (_, { dx }) => {
+        if (dx < -320) {
           Animated.spring(position, {
-            toValue: 0,
+            toValue: -450,
             useNativeDriver: true,
-          }),
-        ]).start();
+          }).start();
+        } else if (dx > 320) {
+          Animated.spring(position, {
+            toValue: 450,
+            useNativeDriver: true,
+          }).start();
+        } else {
+          Animated.parallel([onPressOut, goCenter]).start();
+        }
       },
     })
   ).current;
@@ -54,7 +70,13 @@ export default function App() {
     <Container>
       <Card
         {...panResponder.panHandlers}
-        style={{ transform: [{ scale }, { translateX: position }] }}
+        style={{
+          transform: [
+            { scale },
+            { translateX: position },
+            { rotateZ: rotation },
+          ],
+        }}
       >
         <Ionicons name={"pizza"} color={"#192a56"} size={100} />
       </Card>
@@ -104,4 +126,12 @@ export default function App() {
 //     // 시작을 현재 위치에서  ( 0,0 이 아닌ㄷ )
 //     x: POSITION.x._value,
 //     y: POSITION.y._value,
+// });
+
+// interpolate 의 extraploate ( clamp 제한, extend 규칙대로 쭉이어감, identity ?? )
+// inputRange 의 범위를 벗어나는 부분 컨트롤
+// const rotation = position.interpolate({
+//     inputRange: [-250, 250],
+//     outputRange: ["-15deg", "15deg"],
+//     extrapolate: "clamp",
 // });
