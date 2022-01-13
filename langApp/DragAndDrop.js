@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Animated, Easing, PanResponder, View } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
+import icons from "./icons";
 
 const BLACK = "#1E272E";
 const GREY = "#485460";
@@ -50,6 +51,14 @@ const IconCard = styled(Animated.createAnimatedComponent(View))`
 `;
 
 const DragAndDrop = () => {
+  const [index, setIndex] = useState(0);
+  const nextIcon = () => {
+    setIndex((prev) => prev + 1);
+    Animated.parallel([
+      Animated.spring(scale, { toValue: 1, useNativeDriver: true }),
+      Animated.spring(opacity, { toValue: 1, useNativeDriver: true }),
+    ]).start();
+  };
   // Value
   const opacity = useRef(new Animated.Value(1)).current;
   const scale = useRef(new Animated.Value(1)).current;
@@ -138,7 +147,7 @@ const DragAndDrop = () => {
             transform: [...position.getTranslateTransform(), { scale }],
           }}
         >
-          <Ionicons name={"beer"} color={GREY} size={70} />
+          <Ionicons name={icons[index]} color={GREY} size={76} />
         </IconCard>
       </Center>
       <Edge>
