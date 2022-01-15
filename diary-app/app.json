@@ -3,9 +3,7 @@
     "name": "diary-app",
     "slug": "diary-app",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   },
   "name": "diary-app"
 }
