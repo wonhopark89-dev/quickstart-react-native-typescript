@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../color';
 import { TabsNavigationProps } from '../navigator';
+import { useDB } from '../context';
+import { FlatList } from 'react-native';
 
 const View = styled.View`
   flex: 1;
-  padding: 0px 50px;
+  padding: 0 50px;
   padding-top: 100px;
   background-color: ${colors.bgColor};
 `;
@@ -28,12 +30,67 @@ const Btn = styled.TouchableOpacity`
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
 `;
 
-const Home = ({ navigation: { navigate } }: TabsNavigationProps<'Home'>) => (
-  <View>
-    <Title>My journal</Title>
-    <Btn onPress={() => navigate('Write')} style={{ elevation: 5 }}>
-      <Ionicons name="add" color="white" size={40} />
-    </Btn>
-  </View>
-);
+const Record = styled.Text`
+  background-color: ${colors.cardColor};
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
+const Emotion = styled.Text`
+  font-size: 24px;
+  margin-right: 10px;
+`;
+
+const Message = styled.Text`
+  font-size: 18px;
+`;
+
+const Separator = styled.View`
+  height: 10px;
+`;
+
+const Home = ({ navigation: { navigate } }: TabsNavigationProps<'Home'>) => {
+  const realm = useDB();
+  const [feelings, setFeelings] = useState<{ emotion: string; message: string }[]>([]);
+
+  useEffect(() => {
+    const feelingsDB = realm.objects('Feeling');
+    // @ts-ignore
+    setFeelings(feelingsDB);
+
+    // 업데이트 체크
+    feelingsDB.addListener(() => {
+      const feelingsDB = realm.objects('Feeling');
+      // @ts-ignore
+      setFeelings(feelingsDB);
+    });
+    return () => {
+      feelingsDB.removeAllListeners();
+    };
+  }, []);
+
+  return (
+    <View>
+      <Title>My journal</Title>
+      <FlatList
+        data={feelings}
+        contentContainerStyle={{ paddingVertical: 10 }}
+        ItemSeparatorComponent={Separator}
+        keyExtractor={(feeling, index) => `${index}`}
+        renderItem={({ item }) => (
+          <Record>
+            <Emotion>{item.emotion}</Emotion>
+            <Message>{item.message}</Message>
+          </Record>
+        )}
+      />
+      <Btn onPress={() => navigate('Write')} style={{ elevation: 5 }}>
+        <Ionicons name="add" color="white" size={40} />
+      </Btn>
+    </View>
+  );
+};
 export default Home;
