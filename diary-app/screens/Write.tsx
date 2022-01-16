@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Alert, View, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import colors from '../color';
+import { TabsNavigationProps } from '../navigator';
+import { useDB } from '../context';
 
 const Container = styled.View`
   background-color: ${colors.bgColor};
@@ -61,7 +63,8 @@ const EmotionText = styled.Text`
 
 const emotions: string[] = ['🤯', '🥲', '🤬', '🤗', '🥰', '😊', '🤩'];
 
-const Write = () => {
+const Write = ({ navigation: { goBack } }: TabsNavigationProps<'Write'>) => {
+  const realm = useDB();
   const [selectedEmotion, setEmotion] = useState<string | null>(null);
   const [feelings, setFeelings] = useState<string>('');
   const onChangeText = (text: string) => setFeelings(text);
@@ -70,6 +73,20 @@ const Write = () => {
     if (feelings === '' || selectedEmotion == null) {
       return Alert.alert('Please complete form.');
     }
+    //  realm 에 저장
+    realm.write(() => {
+      // schema 의 이름과 같아야 한다.
+      realm.create('Feeling', {
+        _id: Date.now(),
+        emotion: selectedEmotion,
+        message: feelings,
+      });
+    });
+
+    // goBack 하면 unmount 될 예정이라 필요없다.
+    // setEmotion(null)
+    // setFeelings("")
+    goBack();
   };
   return (
     <Container>
