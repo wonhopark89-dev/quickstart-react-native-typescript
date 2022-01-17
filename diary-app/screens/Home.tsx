@@ -4,7 +4,13 @@ import { Ionicons } from '@expo/vector-icons';
 import colors from '../color';
 import { TabsNavigationProps } from '../navigator';
 import { useDB } from '../context';
-import { FlatList } from 'react-native';
+import { FlatList, LayoutAnimation, Platform, TouchableOpacity, UIManager } from 'react-native';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 const View = styled.View`
   flex: 1;
@@ -37,6 +43,7 @@ const Record = styled.Text`
   padding: 10px 20px;
   border-radius: 10px;
   overflow: hidden;
+  box-shadow: 1px 1px 1px rgba(41, 30, 95, 0.1);
 `;
 
 const Emotion = styled.Text`
@@ -58,19 +65,28 @@ const Home = ({ navigation: { navigate } }: TabsNavigationProps<'Home'>) => {
 
   useEffect(() => {
     const feelingsDB = realm.objects('Feeling');
-    // @ts-ignore
-    setFeelings(feelingsDB);
-
     // 업데이트 체크
-    feelingsDB.addListener(() => {
-      const feelingsDB = realm.objects('Feeling');
+    feelingsDB.addListener((feelings, changes) => {
+      // 상태값 변하기 전에 애니메이션 선언
+      //  LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+      // 축약형
+      LayoutAnimation.spring();
+      // LayoutAnimation.linear();
+      // 시간순 정렬 ( _id 는 시간으로 되어있음 )
       // @ts-ignore
-      setFeelings(feelingsDB);
+      setFeelings(feelings.sorted('_id', true));
     });
     return () => {
       feelingsDB.removeAllListeners();
     };
   }, []);
+
+  const onPress = (id: string) => {
+    realm.write(() => {
+      const feeling = realm.objectForPrimaryKey('Feeling', id);
+      realm.delete(feeling);
+    });
+  };
 
   return (
     <View>
@@ -81,10 +97,13 @@ const Home = ({ navigation: { navigate } }: TabsNavigationProps<'Home'>) => {
         ItemSeparatorComponent={Separator}
         keyExtractor={(feeling, index) => `${index}`}
         renderItem={({ item }) => (
-          <Record>
-            <Emotion>{item.emotion}</Emotion>
-            <Message>{item.message}</Message>
-          </Record>
+          //@ts-ignore
+          <TouchableOpacity onPress={() => onPress(item._id)}>
+            <Record>
+              <Emotion>{item.emotion}</Emotion>
+              <Message>{item.message}</Message>
+            </Record>
+          </TouchableOpacity>
         )}
       />
       <Btn onPress={() => navigate('Write')} style={{ elevation: 5 }}>
