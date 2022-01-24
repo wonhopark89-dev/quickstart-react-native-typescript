@@ -3,6 +3,10 @@
 yarn add @react-native-firebase/app
 ```
 
+## Firebase - Auth
+```
+- https://rnfirebase.io/auth/usage
+```
 
 ## Firebase - Android
 옵션: Debug signing certificate SHA-1
