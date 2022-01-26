@@ -2,12 +2,12 @@ import * as React from 'react';
 import styled from 'styled-components/native';
 import { useRef, useState } from 'react';
 import { BLACK_COLOR } from '../colors';
-import { StyleSheet, TextInput } from 'react-native';
+import { ActivityIndicator, Alert, StyleSheet, TextInput } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 const Container = styled.View`
   background-color: ${BLACK_COLOR};
   flex: 1;
-  align-items: center;
   color: white;
   padding: 60px 20px;
 `;
@@ -36,6 +36,8 @@ const BtnText = styled.Text`
 
 const styles = StyleSheet.create({
   textInput: {
+    borderWidth: 1,
+    backgroundColor: 'grey',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
@@ -48,12 +50,42 @@ const styles = StyleSheet.create({
 const Join = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const passwordInputRef = useRef<TextInput>(null);
 
   const onSubmitEditing = () => {
     passwordInputRef.current?.focus();
   };
+
+  const onSubmitPasswordEditing = async () => {
+    if (email === '' || password === '') {
+      return Alert.alert('Fill in the form.');
+    }
+    // 버튼 상태값으로 컨트롤 해도 될듯
+    // if(loading) {
+    //   return
+    // }
+    setLoading(true);
+    try {
+      const result = await auth().createUserWithEmailAndPassword(email, password);
+      console.log(JSON.stringify(result));
+    } catch (e) {
+      // @error auth/email-already-in-use
+      // @error auth/invalid-email
+      // @error auth/weak-password
+
+      // @ts-ignore
+      switch (e.code) {
+        case 'auth/weak-password': {
+          Alert.alert('Write a stronger password!');
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container>
       <TextInput
@@ -79,9 +111,10 @@ const Join = () => {
         returnKeyType={'done'}
         onChangeText={(text) => setPassword(text)}
         placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
+        onSubmitEditing={onSubmitPasswordEditing}
       />
-      <Btn>
-        <BtnText>Create Account</BtnText>
+      <Btn disabled={loading} onPress={onSubmitPasswordEditing}>
+        {loading ? <ActivityIndicator size={'large'} color={'white'} /> : <BtnText>Create Account</BtnText>}
       </Btn>
     </Container>
   );
