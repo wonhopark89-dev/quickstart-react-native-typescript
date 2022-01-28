@@ -3,6 +3,9 @@ import auth from '@react-native-firebase/auth';
 import { NavigationContainer } from '@react-navigation/native';
 import InNavStackNavigator from './navigators/InNav';
 import OutNavStackNavigator from './navigators/OutNav';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -19,5 +22,9 @@ export default function App() {
     });
   }, []);
 
-  return <NavigationContainer>{isLoggedIn ? <InNavStackNavigator /> : <OutNavStackNavigator />}</NavigationContainer>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>{isLoggedIn ? <InNavStackNavigator /> : <OutNavStackNavigator />}</NavigationContainer>
+    </QueryClientProvider>
+  );
 }
