@@ -11,7 +11,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(auth().currentUser);
+    // console.log(auth().currentUser);
     // 유저의 인증상태를 감시
     auth().onAuthStateChanged((user) => {
       if (user) {

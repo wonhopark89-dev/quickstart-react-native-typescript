@@ -54,7 +54,7 @@ const Join = () => {
 
   const passwordInputRef = useRef<TextInput>(null);
 
-  const onSubmitEditing = () => {
+  const onSubmitEmailEditing = () => {
     passwordInputRef.current?.focus();
   };
 
@@ -98,7 +98,7 @@ const Join = () => {
         returnKeyType={'next'}
         onChangeText={(text) => setEmail(text)}
         placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
-        onSubmitEditing={onSubmitEditing}
+        onSubmitEditing={onSubmitEmailEditing}
       />
       <TextInput
         ref={passwordInputRef}
@@ -114,7 +114,7 @@ const Join = () => {
         onSubmitEditing={onSubmitPasswordEditing}
       />
       <Btn disabled={loading} onPress={onSubmitPasswordEditing}>
-        {loading ? <ActivityIndicator size={'large'} color={'white'} /> : <BtnText>Create Account</BtnText>}
+        {loading ? <ActivityIndicator size={'small'} color={'white'} /> : <BtnText>Create Account</BtnText>}
       </Btn>
     </Container>
   );
