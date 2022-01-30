@@ -2,17 +2,26 @@ import * as React from 'react';
 import styled from 'styled-components/native';
 import { useQuery } from 'react-query';
 import { coins } from '../api';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, FlatList } from 'react-native';
 import { BLACK_COLOR } from '../colors';
 import { useEffect, useState } from 'react';
 
 const Container = styled.View`
   flex: 1;
-  align-items: center;
-  justify-content: center;
+  background-color: ${BLACK_COLOR};
 `;
 
-const Text = styled.Text``;
+const Coin = styled.View`
+  align-items: center;
+`;
+
+const CoinName = styled.Text`
+  color: white;
+`;
+
+const CoinSymbol = styled.Text`
+  color: white;
+`;
 
 const Loader = styled.View`
   flex: 1;
@@ -40,7 +49,17 @@ const Home = () => {
 
   return (
     <Container>
-      <Text>{cleanData?.length}</Text>
+      <FlatList
+        data={cleanData}
+        numColumns={5}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Coin>
+            <CoinName>{item.name}</CoinName>
+            <CoinSymbol>{item.symbol}</CoinSymbol>
+          </Coin>
+        )}
+      />
     </Container>
   );
 };
