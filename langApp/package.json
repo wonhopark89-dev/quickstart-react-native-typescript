@@ -5,24 +5,35 @@
   "scripts": {
     "start": "npx react-native start",
     "android": "npx react-native run-android",
-    "ios": "npx react-native run-ios",
+    "ios": "npx react-native run-ios --simulator='iPhone 12'",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.7",
+    "@react-navigation/native-stack": "^6.3.0",
+    "@types/styled-components": "^5.1.21",
+    "@types/styled-components-react-native": "^5.1.3",
     "expo": "~44.0.2",
+    "expo-asset": "~8.4.6",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "prettier": "^2.5.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.10.1",
     "react-native-web": "0.17.1",
     "react-query": "^3.34.12",
-    "styled-components": "^5.3.3",
-    "expo-asset": "~8.4.6"
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@types/jest": "^27.4.0",
+    "@types/react": "^17.0.38",
+    "@types/react-native": "^0.66.15",
+    "@types/react-test-renderer": "^17.0.1",
+    "typescript": "^4.5.5"
   },
   "private": true
 }
