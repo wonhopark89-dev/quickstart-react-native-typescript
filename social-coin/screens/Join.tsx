@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components/native';
 import { useRef, useState } from 'react';
+import styled from 'styled-components/native';
 import { BLACK_COLOR } from '../colors';
 import { ActivityIndicator, Alert, StyleSheet, TextInput } from 'react-native';
 import auth from '@react-native-firebase/auth';
@@ -20,6 +20,7 @@ const Container = styled.View`
 //   color: white;
 //   background-color: rgba(255, 255, 255, 0.5);
 // `;
+
 const Btn = styled.TouchableOpacity`
   width: 100%;
   padding: 10px 20px;
@@ -69,7 +70,7 @@ const Join = () => {
     setLoading(true);
     try {
       const result = await auth().createUserWithEmailAndPassword(email, password);
-      console.log(JSON.stringify(result));
+      // console.log(JSON.stringify(result));
     } catch (e) {
       // @error auth/email-already-in-use
       // @error auth/invalid-email

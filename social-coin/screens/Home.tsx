@@ -1,26 +1,16 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useQuery } from 'react-query';
 import { coins } from '../api';
-import { ActivityIndicator, FlatList } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 import { BLACK_COLOR } from '../colors';
-import { useEffect, useState } from 'react';
+import Coin from '../components/Coin';
+import { InNavStackProps } from '../navigators/InNav';
 
 const Container = styled.View`
   flex: 1;
   background-color: ${BLACK_COLOR};
-`;
-
-const Coin = styled.View`
-  align-items: center;
-`;
-
-const CoinName = styled.Text`
-  color: white;
-`;
-
-const CoinSymbol = styled.Text`
-  color: white;
 `;
 
 const Loader = styled.View`
@@ -30,35 +20,45 @@ const Loader = styled.View`
   align-items: center;
 `;
 
-const Home = () => {
-  const { isLoading, data } = useQuery('coins', coins);
-  const [cleanData, setCleanData] = useState([]);
+interface CoinsProps {
+  id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  is_new: boolean;
+  is_active: boolean;
+}
+
+const Home = ({ navigation }: InNavStackProps<'Home'>) => {
+  const { isLoading, data } = useQuery<CoinsProps[], Error>('coins', coins);
+  const [cleanData, setCleanData] = useState<CoinsProps[]>([]);
 
   useEffect(() => {
-    // @ts-ignore
-    setCleanData(data?.filter((coin) => coin.rank !== 0 && coin.is_active && !coin.is_new));
+    if (data) {
+      setCleanData(data?.filter((coin) => coin.rank !== 0 && coin.is_active && !coin.is_new));
+    }
   }, [data]);
 
   if (isLoading) {
     return (
       <Loader>
-        <ActivityIndicator color={'white'} />
+        <ActivityIndicator color={'white'} size={'large'} />
       </Loader>
     );
   }
+
+  // const a = () => navigation.navigate("Detail", { })
 
   return (
     <Container>
       <FlatList
         data={cleanData}
-        numColumns={5}
+        contentContainerStyle={{ paddingVertical: 20, paddingHorizontal: 10 }}
+        numColumns={3}
+        columnWrapperStyle={{ justifyContent: 'space-between' }} //numColumns 사용시에만
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Coin>
-            <CoinName>{item.name}</CoinName>
-            <CoinSymbol>{item.symbol}</CoinSymbol>
-          </Coin>
-        )}
+        renderItem={({ item, index }) => <Coin symbol={item.symbol} id={item.id} index={index} />}
       />
     </Container>
   );
