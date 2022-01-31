@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator='iPhone 12'",
     "start:expo": "expo start --dev-client",
     "android:expo": "expo run:android",
     "ios:expo": "expo run:ios",
@@ -26,9 +26,11 @@
     "react-native": "0.64.3",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
+    "react-native-svg": "^12.1.1",
     "react-native-web": "0.17.1",
     "react-query": "^3.34.12",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "victory-native": "^36.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

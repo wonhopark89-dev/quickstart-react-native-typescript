@@ -19,3 +19,6 @@ yarn add @react-native-firebase/app
 - cd android && ./gradlew signingReport
 -> app:signingReport 의 SHA-1 부분 복사
 ```
+
+## Victory Chart
+- https://formidable.com/open-source/victory/docs/native
