@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer, ParamListBase } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, TouchableHighlight, View } from 'react-native';
+import { Pressable, Text, TouchableHighlight, View } from 'react-native';
 import { useCallback } from 'react';
 
 type RootStackParamList = {
@@ -18,9 +18,9 @@ function HomeScreen({ navigation }: HomeScreenProps) {
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <TouchableHighlight onPress={onClick}>
-        <Text>Home Screen</Text>
-      </TouchableHighlight>
+      <Pressable onPress={onClick} style={{ padding: 10, backgroundColor: 'orange' }}>
+        <Text style={{ color: 'white' }}>Home Screen</Text>
+      </Pressable>
     </View>
   );
 }
