@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import DismissKeyboardView from '../components/DismissKeyboardView';
@@ -48,7 +48,10 @@ function SignIn({ navigation }: SignInScreenProps) {
           value={email}
           returnKeyType="next"
           clearButtonMode="while-editing"
+          autoCapitalize={'none'}
+          contextMenuHidden={true}
           ref={emailRef}
+          keyboardType={'email-address'}
           onSubmitEditing={() => passwordRef.current?.focus()}
           blurOnSubmit={false}
         />
@@ -67,6 +70,8 @@ function SignIn({ navigation }: SignInScreenProps) {
           secureTextEntry
           returnKeyType="send"
           clearButtonMode="while-editing"
+          autoCapitalize={'none'}
+          contextMenuHidden={true}
           ref={passwordRef}
           onSubmitEditing={onSubmit}
         />
@@ -88,6 +93,8 @@ function SignIn({ navigation }: SignInScreenProps) {
 
 const styles = StyleSheet.create({
   textInput: {
+    fontSize: 16,
+    fontFamily: Platform.OS === 'ios' ? 'AppleSDGothicNeo-Medium' : 'Roboto',
     padding: 5,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
@@ -96,7 +103,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: Platform.OS === 'ios' ? 'AppleSDGothicNeo-Medium' : 'Roboto',
     marginBottom: 20,
   },
   buttonZone: {
