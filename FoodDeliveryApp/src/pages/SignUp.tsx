@@ -62,6 +62,8 @@ function SignUp({ navigation }: SignUpScreenProps) {
           returnKeyType="next"
           clearButtonMode="while-editing"
           ref={emailRef}
+          autoCapitalize={'none'}
+          contextMenuHidden={true}
           onSubmitEditing={() => nameRef.current?.focus()}
           blurOnSubmit={false}
         />
@@ -78,6 +80,8 @@ function SignUp({ navigation }: SignUpScreenProps) {
           returnKeyType="next"
           clearButtonMode="while-editing"
           ref={nameRef}
+          autoCapitalize={'none'}
+          contextMenuHidden={true}
           onSubmitEditing={() => passwordRef.current?.focus()}
           blurOnSubmit={false}
         />
@@ -95,6 +99,8 @@ function SignUp({ navigation }: SignUpScreenProps) {
           secureTextEntry
           returnKeyType="send"
           clearButtonMode="while-editing"
+          autoCapitalize={'none'}
+          contextMenuHidden={true}
           ref={passwordRef}
           onSubmitEditing={onSubmit}
         />
@@ -113,6 +119,8 @@ function SignUp({ navigation }: SignUpScreenProps) {
 
 const styles = StyleSheet.create({
   textInput: {
+    fontSize: 16,
+    fontFamily: Platform.OS === 'ios' ? 'AppleSDGothicNeo-Medium' : 'Roboto',
     padding: 5,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
@@ -121,7 +129,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: Platform.OS === 'ios' ? 'AppleSDGothicNeo-Medium' : 'Roboto',
     marginBottom: 20,
   },
   buttonZone: {
