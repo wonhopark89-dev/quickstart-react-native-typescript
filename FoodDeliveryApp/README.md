@@ -1,0 +1,5 @@
+- TextInput, StyleSheet.compose 사용
+- DismissKeyboardView 만들기(Keyboard, KeyboardAvoidingView)
+- KeyboardAvoidingView는 불편함
+- react-native-keyboard-aware-scrollview를 대안으로 사용
+- TouchableWithoutFeedback 타입은 버튼임
