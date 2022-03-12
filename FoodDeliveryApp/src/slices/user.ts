@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// 전역상태
 const initialState = {
   name: '',
   email: '',
@@ -14,7 +15,7 @@ const user = createSlice({
       state.email = action.payload.email;
       state.name = action.payload.name;
       state.accessToken = action.payload.accessToken;
-      state.refershToekn = action.payload.refreshToken;
+      state.refreshToken = action.payload.refreshToken;
     },
   },
   extraReducers: (builder) => {},
