@@ -4,4 +4,4 @@
 - react-native-keyboard-aware-scrollview를 대안으로 사용
 - TouchableWithoutFeedback 타입은 버튼임
 - useSelector 는 provider 안쪽에서만 사용가능
-- 
+- react-native-config 값 확인 (Android 는 generated/BuildConfig)

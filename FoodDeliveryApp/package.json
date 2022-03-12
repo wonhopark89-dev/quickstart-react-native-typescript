@@ -7,7 +7,8 @@
     "ios": "react-native run-ios --simulator='iPhone 13'",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "postinstall": "cd ios && pod install && cd .."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.16.1",
@@ -18,6 +19,7 @@
     "axios": "^0.26.0",
     "react": "17.0.2",
     "react-native": "0.67.2",
+    "react-native-config": "^1.4.5",
     "react-native-encrypted-storage": "^4.0.2",
     "react-native-flipper": "^0.138.0",
     "react-native-keyboard-aware-scrollview": "^2.1.0",
