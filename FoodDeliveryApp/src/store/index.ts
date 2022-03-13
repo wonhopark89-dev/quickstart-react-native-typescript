@@ -14,5 +14,6 @@ const store = configureStore({
 });
 export default store;
 
+// 타입스크립트여서 타입을 지정하고자 랩핑함
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();

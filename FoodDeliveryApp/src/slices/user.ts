@@ -17,8 +17,8 @@ const user = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
     },
-  },
-  extraReducers: (builder) => {},
+  }, // 동기 액션 주
+  extraReducers: (builder) => {}, // 비동기 액션 주
 });
 
 export default user;

@@ -1,12 +1,19 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../App';
+import { RootStackParamList } from '../../AppInner';
 import DismissKeyboardView from '../components/DismissKeyboardView';
+import { useAppDispatch } from '../store';
+import axios, { AxiosError } from 'axios';
+import Config from 'react-native-config';
+import userSlice from '../slices/user';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
 function SignIn({ navigation }: SignInScreenProps) {
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const emailRef = useRef<TextInput | null>(null);
@@ -18,14 +25,38 @@ function SignIn({ navigation }: SignInScreenProps) {
   const onChangePassword = useCallback((text) => {
     setPassword(text.trim());
   }, []);
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력해주세요.');
     }
     if (!password || !password.trim()) {
       return Alert.alert('알림', '비밀번호를 입력해주세요.');
     }
-    Alert.alert('알림', '로그인 되었습니다.');
+
+    try {
+      setLoading(true);
+      const response = await axios.post(`${Config.API_URL}/login`, {
+        email,
+        password,
+      });
+      console.log(response.data);
+      Alert.alert('알림', '로그인 되었습니다.');
+      dispatch(
+        userSlice.actions.setUser({
+          name: response.data.data.name,
+          email: response.data.data.email,
+          accessToken: response.data.data.accessToken,
+        }),
+      );
+      await EncryptedStorage.setItem('refreshToken', response.data.data.refreshToekn);
+    } catch (error) {
+      const errorResponse = (error as AxiosError).response;
+      if (errorResponse) {
+        Alert.alert('알림', errorResponse.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   }, [email, password]);
 
   const toSignUp = useCallback(() => {
@@ -81,7 +112,7 @@ function SignIn({ navigation }: SignInScreenProps) {
           style={canGoNext ? StyleSheet.compose(styles.loginButton, styles.loginButtonActive) : styles.loginButton}
           disabled={!canGoNext}
           onPress={onSubmit}>
-          <Text style={styles.loginButtonText}>로그인</Text>
+          {loading ? <ActivityIndicator color={'white'} /> : <Text style={styles.loginButtonText}>로그인</Text>}
         </Pressable>
         <Pressable onPress={toSignUp}>
           <Text>회원가입하기</Text>
