@@ -15,7 +15,6 @@ const user = createSlice({
       state.email = action.payload.email;
       state.name = action.payload.name;
       state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
     },
   }, // 동기 액션 주
   extraReducers: (builder) => {}, // 비동기 액션 주

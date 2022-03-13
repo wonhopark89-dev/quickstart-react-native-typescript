@@ -45,10 +45,10 @@ function SignIn({ navigation }: SignInScreenProps) {
         userSlice.actions.setUser({
           name: response.data.data.name,
           email: response.data.data.email,
-          accessToken: response.data.data.accessToken,
+          accessToken: response.data.data.accessToken, // 유효기간
         }),
       );
-      await EncryptedStorage.setItem('refreshToken', response.data.data.refreshToekn);
+      await EncryptedStorage.setItem('refreshToken', response.data.data.refreshToken);
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       if (errorResponse) {
