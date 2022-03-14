@@ -11,6 +11,12 @@ import { useSelector } from 'react-redux';
 import { RootState } from './src/store/reducer';
 import useSocket from './src/hooks/useSocket';
 import { useEffect } from 'react';
+import { useAppDispatch } from './src/store';
+import axios, { AxiosError } from 'axios';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import Config from 'react-native-config';
+import { Alert } from 'react-native';
+import userSlice from './src/slices/user';
 
 export type LoggedInParamList = {
   Orders: undefined;
@@ -28,23 +34,57 @@ const Tab = createBottomTabNavigator<LoggedInParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppInner = () => {
-  // const [isLoggedIn, setLoggedIn] = useState(false);
+  const dispatch = useAppDispatch();
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const [socket, disconnect] = useSocket();
 
+  // 앱 실행 시 토큰 있으면 로그인하는 코드
   useEffect(() => {
-    const helloCallback = (data: any) => {
+    const getTokenAndRefresh = async () => {
+      try {
+        const token = await EncryptedStorage.getItem('refreshToken');
+        if (!token) {
+          return;
+        }
+        const response = await axios.post(
+          `${Config.API_URL}/refreshToken`,
+          {},
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        dispatch(
+          userSlice.actions.setUser({
+            name: response.data.data.name,
+            email: response.data.data.email,
+            accessToken: response.data.data.accessToken,
+          }),
+        );
+      } catch (error) {
+        console.error(error);
+        if ((error as AxiosError).response?.data.code === 'expired') {
+          Alert.alert('알림', '다시 로그인 해주세요.');
+        }
+      }
+    };
+    getTokenAndRefresh();
+  }, [dispatch]);
+
+  useEffect(() => {
+    const callback = (data: any) => {
       console.log(data);
     };
     if (socket && isLoggedIn) {
       console.log(socket);
-      socket.emit('login', 'hello'); // 보내고
-      socket.on('hello', helloCallback); // 받고
+      socket.emit('acceptOrder', 'hello'); // 보내고
+      socket.on('order', callback); // 받고
     }
 
     return () => {
       if (socket) {
-        socket.off('hello', helloCallback);
+        socket.off('hello', callback);
       }
     };
   }, [isLoggedIn, socket]);
