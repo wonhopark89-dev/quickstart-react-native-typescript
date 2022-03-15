@@ -56,8 +56,7 @@ function SignUp({ navigation }: SignUpScreenProps) {
       console.log(Config.API_URL);
       // http method:  get, put, patch, post, delete, head, options
       const response = await axios.post(`${Config.API_URL}/user`, { email, name, password });
-      Alert.alert('알림', '회원가입 되었습니다.');
-      navigation.navigate('SignIn');
+      Alert.alert('알림', '회원가입 되었습니다.', [{ text: '확인', onPress: () => navigation.navigate('SignIn') }]);
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       console.error(error);

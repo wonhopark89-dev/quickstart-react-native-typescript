@@ -17,6 +17,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import Config from 'react-native-config';
 import { Alert } from 'react-native';
 import userSlice from './src/slices/user';
+import orderSlice, { Order } from './src/slices/order';
 
 export type LoggedInParamList = {
   Orders: undefined;
@@ -74,7 +75,7 @@ const AppInner = () => {
 
   useEffect(() => {
     const callback = (data: any) => {
-      console.log(data);
+      dispatch(orderSlice.actions.addOrder(data));
     };
     if (socket && isLoggedIn) {
       console.log(socket);
