@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // 전역상태
 const initialState = {
@@ -20,7 +20,7 @@ const user = createSlice({
     setAccessToken(state, action) {
       state.accessToken = action.payload;
     },
-    setMoney(state, action) {
+    setMoney(state, action: PayloadAction<number>) {
       state.money = action.payload;
     },
   }, // 동기 액션 주
