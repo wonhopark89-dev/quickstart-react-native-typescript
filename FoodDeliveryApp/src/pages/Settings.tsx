@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import axios, { AxiosError } from 'axios';
 import Config from 'react-native-config';
@@ -11,6 +11,20 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 function Settings() {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const dispatch = useAppDispatch();
+  const money = useSelector((state: RootState) => state.user.money);
+
+  useEffect(() => {
+    async function getMoney() {
+      const response = await axios.get<{ data: number }>(`${Config.API_URL}/showmethemoney`, {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        },
+      });
+      dispatch(userSlice.actions.setMoney(response.data.data));
+    }
+    getMoney();
+  }, [accessToken, dispatch]);
+
   const onLogout = useCallback(async () => {
     try {
       await axios.post(
