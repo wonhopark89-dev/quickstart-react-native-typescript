@@ -17,3 +17,6 @@
 - interceptors 기능 활용하기 ( 요청/응답 전후 )
 - authorization 첫 글자는 한 가지로 통일하기 ( 대문자면 다 대문자, 소문자면 다 소문자 )
 - 네비게이션 이동 후, 상태바꾸는 건 지양할 것 ( navigate(=unmount) 된 후 상태 변경 하지 말 것)
+
+### naver-map
+- yarn add react-native-nmap --force
