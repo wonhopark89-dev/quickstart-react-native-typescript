@@ -32,6 +32,7 @@ function EachOrder({ item }: Props) {
         { headers: { authorization: `Bearer ${accessToken}` } },
       );
       dispatch(orderSlice.actions.acceptOrder(item.orderId));
+      setLoading(false); // 네비게이션 이동보다 전에 할 것
       navigation.navigate('Delivery');
     } catch (error) {
       let errorResponse = (error as AxiosError).response;
@@ -40,7 +41,6 @@ function EachOrder({ item }: Props) {
         Alert.alert('알림', errorResponse.data.message);
         dispatch(orderSlice.actions.rejectOrder(item.orderId));
       }
-    } finally {
       setLoading(false);
     }
   }, [navigation, dispatch, item, accessToken]);
