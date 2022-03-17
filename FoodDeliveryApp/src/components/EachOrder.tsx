@@ -18,11 +18,13 @@ function EachOrder({ item }: Props) {
   const dispatch = useAppDispatch();
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [detail, showDetail] = useState(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const onAccept = useCallback(async () => {
     if (!accessToken) {
       return;
     }
+    setLoading(true);
     try {
       await axios.post(
         `${Config.API_URL}/accept`,
@@ -38,6 +40,8 @@ function EachOrder({ item }: Props) {
         Alert.alert('알림', errorResponse.data.message);
         dispatch(orderSlice.actions.rejectOrder(item.orderId));
       }
+    } finally {
+      setLoading(false);
     }
   }, [navigation, dispatch, item, accessToken]);
 
@@ -87,6 +91,7 @@ const styles = StyleSheet.create({
   },
   info: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   eachInfo: {
     flex: 1,

@@ -12,3 +12,7 @@
 - action : state 를 바꾸는 행위/동작
 - dispatch : 그 액션을 실제로 실행하는 함수
 - reducer : 액션이 실제로 실행되면 state 를 바꾸는 로직
+
+### axios
+- interceptors 기능 활용하기 ( 요청/응답 전후 )
+- authorization 첫 글자는 한 가지로 통일하기 ( 대문자면 다 대문자, 소문자면 다 소문자 )
