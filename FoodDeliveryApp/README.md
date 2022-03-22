@@ -20,3 +20,13 @@
 
 ### naver-map
 - yarn add react-native-nmap --force
+
+
+### xcode 클린빌드 ( 정말 안될떄 )
+```
+cd ios && pod deintegrate
+rm -rf Podfile.lock
+-> xcode clean ( cmd + shift + k )
+pod install
+-> xcode build
+```
