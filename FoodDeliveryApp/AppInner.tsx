@@ -18,6 +18,7 @@ import Config from 'react-native-config';
 import { Alert } from 'react-native';
 import userSlice from './src/slices/user';
 import orderSlice, { Order } from './src/slices/order';
+import usePermissions from './src/hooks/usePermissions';
 
 export type LoggedInParamList = {
   Orders: undefined;
@@ -38,6 +39,8 @@ const AppInner = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const [socket, disconnect] = useSocket();
+
+  usePermissions();
 
   // 만료 시 재발행
   // 요청과 응답에 대한 커스텀
