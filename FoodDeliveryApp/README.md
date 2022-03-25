@@ -30,3 +30,7 @@ rm -rf Podfile.lock
 pod install
 -> xcode build
 ```
+
+### permission
+- Permission-LocationAccuracy
+  ( 위치 정확도는 높아지지만 배터리소모가 커질 수 있음 )
