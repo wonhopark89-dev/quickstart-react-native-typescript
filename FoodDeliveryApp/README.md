@@ -34,3 +34,16 @@ pod install
 ### permission
 - Permission-LocationAccuracy
   ( 위치 정확도는 높아지지만 배터리소모가 커질 수 있음 )
+
+### FCM
+#### 안드로이드
+```
+- 파이어베이스 프로젝트 생성
+- google-services.json 설정 및 gradle 설정
+( app, build gradle 설정 각각 가이드대로 ) 
+- 프로젝트 설정 -> 서비스계정 ->  새 비공개 키 설정(서버에서 필요함)
+- 아래값 true 설정 
+<meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
+                  android:value="true"/>
+```
+- [참고(react-native-push-notification)](https://github.com/zo0r/react-native-push-notification)

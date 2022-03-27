@@ -10,13 +10,13 @@ const multer = require("multer");
 const admin = require("firebase-admin");
 
 let phoneToken;
-// process.env.GOOGLE_APPLICATION_CREDENTIALS =
-//   "./fooddeliveryapp-6609a-firebase-adminsdk-nev9a-603a8b9ae6.json";
-//
-// admin.initializeApp({
-//   credential: admin.credential.applicationDefault(),
-//   databaseURL: "https://fooddeliveryapp-6609a.firebaseio.com",
-// });
+process.env.GOOGLE_APPLICATION_CREDENTIALS =
+  "./fooddeliveryapp-b4b05-firebase-adminsdk-xf9ng-33d67bb67f.json";
+
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  databaseURL: "https://fooddeliveryapp-b4b05.firebaseio.com",
+});
 const orders = [];
 const app = express();
 app.use("/", express.static(path.join(__dirname, "uploads")));
