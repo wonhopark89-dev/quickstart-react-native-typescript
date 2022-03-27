@@ -19,6 +19,7 @@ import { Alert } from 'react-native';
 import userSlice from './src/slices/user';
 import orderSlice, { Order } from './src/slices/order';
 import usePermissions from './src/hooks/usePermissions';
+import messaging from '@react-native-firebase/messaging';
 
 export type LoggedInParamList = {
   Orders: undefined;
@@ -133,6 +134,24 @@ const AppInner = () => {
       disconnect();
     }
   }, [isLoggedIn, disconnect]);
+
+  // 토큰 설정
+  useEffect(() => {
+    async function getToken() {
+      try {
+        if (!messaging().isDeviceRegisteredForRemoteMessages) {
+          await messaging().registerDeviceForRemoteMessages();
+        }
+        const token = await messaging().getToken();
+        console.log('phone token', token);
+        dispatch(userSlice.actions.setPhoneToken(token));
+        return axios.post(`${Config.API_URL}/phonetoken`, { token });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getToken();
+  }, [dispatch]);
 
   return (
     <NavigationContainer>

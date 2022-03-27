@@ -6,6 +6,7 @@ const initialState = {
   email: '',
   accessToken: '',
   // refreshToken: '',
+  phoneToken: '',
   money: 0,
 };
 const user = createSlice({
@@ -22,6 +23,9 @@ const user = createSlice({
     },
     setMoney(state, action: PayloadAction<number>) {
       state.money = action.payload;
+    },
+    setPhoneToken(state, action) {
+      state.phoneToken = action.payload;
     },
   }, // 동기 액션 주
   extraReducers: (builder) => {}, // 비동기 액션 주

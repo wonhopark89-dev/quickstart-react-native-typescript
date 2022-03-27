@@ -14,8 +14,8 @@ type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 function SignIn({ navigation }: SignInScreenProps) {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('test01@gmail.com');
+  const [password, setPassword] = useState('qwer1234!');
   const emailRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
 
