@@ -46,6 +46,11 @@ pod install
 <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
                   android:value="true"/>
 ```
+
+#### iOS
+```
+- ios 프로젝트에 GoogleService-Info.plist 복사 붙여넣기가 아닌 새파일로 추가하기로 해야한다.
+```
 - [참고(react-native-push-notification)](https://github.com/zo0r/react-native-push-notification)
 
 
