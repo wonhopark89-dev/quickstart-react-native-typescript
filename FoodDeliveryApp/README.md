@@ -47,3 +47,7 @@ pod install
                   android:value="true"/>
 ```
 - [참고(react-native-push-notification)](https://github.com/zo0r/react-native-push-notification)
+
+
+#### iOS
+- p8 인증서를 파이어베이스 등록해야함
