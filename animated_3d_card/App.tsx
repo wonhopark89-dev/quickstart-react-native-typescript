@@ -29,6 +29,12 @@ const App = () => {
             backgroundColor: 'black',
             position: 'absolute',
             borderRadius: 20,
+            zIndex: 300, // Animated 보이는 부분
+            transform: [
+              {perspective: 300},
+              {rotateX: '10deg'},
+              {rotateY: '-10deg'},
+            ],
           }}
         />
       </GestureDetector>
