@@ -1,15 +1,37 @@
 import React from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
+import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
 import {BackgroundGradient} from './components/BackgroundGradient';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 const HEIGHT = 256;
 const WIDTH = SCREEN_WIDTH * 0.9;
 
+const CARD_HEIGHT = HEIGHT - 10;
+const CARD_WIDTH = WIDTH - 10;
+
 const App = () => {
+  const gesture = Gesture.Pan();
+
   return (
     <View style={styles.container}>
       <BackgroundGradient width={WIDTH} height={HEIGHT} />
+      <GestureDetector gesture={gesture}>
+        <Animated.View
+          style={{
+            height: CARD_HEIGHT,
+            width: CARD_WIDTH,
+            backgroundColor: 'black',
+            position: 'absolute',
+            borderRadius: 20,
+          }}
+        />
+      </GestureDetector>
     </View>
   );
 };
@@ -23,4 +45,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default () => {
+  return (
+    <GestureHandlerRootView style={{flex: 1}}>
+      <App />
+    </GestureHandlerRootView>
+  );
+};
