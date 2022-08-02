@@ -1,10 +1,6 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
-import {
-  Gesture,
-  GestureDetector,
-  GestureHandlerRootView,
-} from 'react-native-gesture-handler';
+import {Gesture, GestureDetector, GestureHandlerRootView} from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
   interpolate,
@@ -28,12 +24,8 @@ const App = () => {
   const gesture = Gesture.Pan()
     .onBegin(event => {
       // first finger
-      rotateX.value = withTiming(
-        interpolate(event.y, [0, CARD_WIDTH], [10, -10], Extrapolation.CLAMP),
-      );
-      rotateY.value = withTiming(
-        interpolate(event.x, [0, CARD_HEIGHT], [-10, 10], Extrapolation.CLAMP),
-      );
+      rotateX.value = withTiming(interpolate(event.y, [0, CARD_WIDTH], [10, -10], Extrapolation.CLAMP));
+      rotateY.value = withTiming(interpolate(event.x, [0, CARD_HEIGHT], [-10, 10], Extrapolation.CLAMP));
     })
     .onUpdate(event => {
       // console.log(event.x);
@@ -41,18 +33,8 @@ const App = () => {
       // STEP : 1
       // rotateX.value = event.x;
       // rotateY.value = event.y;
-      rotateX.value = interpolate(
-        event.y,
-        [0, CARD_WIDTH],
-        [10, -10],
-        Extrapolation.CLAMP,
-      );
-      rotateY.value = interpolate(
-        event.x,
-        [0, CARD_HEIGHT],
-        [-10, 10],
-        Extrapolation.CLAMP,
-      );
+      rotateX.value = interpolate(event.y, [0, CARD_WIDTH], [10, -10], Extrapolation.CLAMP);
+      rotateY.value = interpolate(event.x, [0, CARD_HEIGHT], [-10, 10], Extrapolation.CLAMP);
     })
     .onFinalize(() => {
       // rotateX.value = 0;
@@ -71,13 +53,23 @@ const App = () => {
     const rotateXvalue = `${rotateX.value}deg`;
     const rotateYvalue = `${rotateY.value}deg`;
     return {
-      transform: [
-        {perspective: 300},
-        {rotateX: rotateXvalue},
-        {rotateY: rotateYvalue},
-      ],
+      transform: [{perspective: 300}, {rotateX: rotateXvalue}, {rotateY: rotateYvalue}],
     };
   }, []);
+
+  const BottomContainer = () =>
+    useMemo(
+      () => (
+        <View style={{position: 'absolute', bottom: '10%', left: '10%', flexDirection: 'row'}}>
+          <View style={styles.symbol} />
+          <View style={{flexDirection: 'column', marginLeft: 10, justifyContent: 'space-around'}}>
+            <View style={styles.info} />
+            <View style={styles.info} />
+          </View>
+        </View>
+      ),
+      [],
+    );
 
   return (
     <View style={styles.container}>
@@ -95,45 +87,7 @@ const App = () => {
             },
             rStyle,
           ]}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: '10%',
-              left: '10%',
-              flexDirection: 'row',
-            }}>
-            <View
-              style={{
-                height: 50,
-                aspectRatio: 1,
-                borderRadius: 25,
-                backgroundColor: '#272F46',
-              }}
-            />
-            <View
-              style={{
-                flexDirection: 'column',
-                marginLeft: 10,
-                justifyContent: 'space-around',
-              }}>
-              <View
-                style={{
-                  height: 20,
-                  width: 80,
-                  borderRadius: 25,
-                  backgroundColor: '#272F46',
-                }}
-              />
-              <View
-                style={{
-                  height: 20,
-                  width: 80,
-                  borderRadius: 25,
-                  backgroundColor: '#272F46',
-                }}
-              />
-            </View>
-          </View>
+          <BottomContainer />
         </Animated.View>
       </GestureDetector>
     </View>
@@ -146,6 +100,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',
+  },
+  symbol: {
+    height: 50,
+    aspectRatio: 1,
+    borderRadius: 25,
+    backgroundColor: '#272F46',
+  },
+  info: {
+    height: 20,
+    width: 80,
+    borderRadius: 25,
+    backgroundColor: '#272F46',
   },
 });
 
