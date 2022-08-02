@@ -26,6 +26,15 @@ const App = () => {
   const rotateY = useSharedValue(0);
 
   const gesture = Gesture.Pan()
+    .onBegin(event => {
+      // first finger
+      rotateX.value = withTiming(
+        interpolate(event.y, [0, CARD_WIDTH], [10, -10], Extrapolation.CLAMP),
+      );
+      rotateY.value = withTiming(
+        interpolate(event.x, [0, CARD_HEIGHT], [-10, 10], Extrapolation.CLAMP),
+      );
+    })
     .onUpdate(event => {
       // console.log(event.x);
       // console.log(event.y);
