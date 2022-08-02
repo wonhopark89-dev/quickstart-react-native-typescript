@@ -94,8 +94,47 @@ const App = () => {
               zIndex: 300, // Animated 보이는 부분
             },
             rStyle,
-          ]}
-        />
+          ]}>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: '10%',
+              left: '10%',
+              flexDirection: 'row',
+            }}>
+            <View
+              style={{
+                height: 50,
+                aspectRatio: 1,
+                borderRadius: 25,
+                backgroundColor: '#272F46',
+              }}
+            />
+            <View
+              style={{
+                flexDirection: 'column',
+                marginLeft: 10,
+                justifyContent: 'space-around',
+              }}>
+              <View
+                style={{
+                  height: 20,
+                  width: 80,
+                  borderRadius: 25,
+                  backgroundColor: '#272F46',
+                }}
+              />
+              <View
+                style={{
+                  height: 20,
+                  width: 80,
+                  borderRadius: 25,
+                  backgroundColor: '#272F46',
+                }}
+              />
+            </View>
+          </View>
+        </Animated.View>
       </GestureDetector>
     </View>
   );
